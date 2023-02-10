@@ -4,6 +4,6 @@
             src="/assets/img/cards/card_cover.png">
         <img (click)="takeCard()" class="topCard" style="right: 20px;" src="/assets/img/cards/card_cover.png">
         <img (click)="takeCard()" *ngIf="newCardAnimation" class="newCardAnimation" style="
-            right: 20px;" src="/assets/img/cards/clubs_1.png">
+            right: 20px;" src="/assets/img/cards/{{ currentCard }}.png">
     </div>
 </div>
