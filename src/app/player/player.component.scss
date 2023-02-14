@@ -2,13 +2,13 @@
     display: flex;
     align-items: center;
     width: 300px;
-    background-color: orange;
+    background-color: lightgray;
     border-top-left-radius: 24px;
     border-bottom-left-radius: 24px;
 
     img {
-        height: 100px;
-        width: 100px;
+        height: 70px;
+        width: 70px;
         border-radius: 100%;
     }
 
@@ -17,4 +17,8 @@
         margin-left: 16px;
     }
 
+}
+
+.playerActive{
+    background-color: orange !important;
 }
