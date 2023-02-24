@@ -38,8 +38,8 @@ import { environment } from '../environments/environment';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatCardModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    MatCardModule
+    //AngularFireModule.initializeApp(environment.firebase)
     
   ],
   providers: [],
