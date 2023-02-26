@@ -11,19 +11,19 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  newCardAnimation = false;
-  currentCard: string = '';
   game!: Game;
+  gameId: string = '';
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.newGame();
-    this.route.params.subscribe((param) => {
-      console.log('route', param['id']);
+    this.route.params.subscribe((params) => {
+      //console.log('route', params['id']);
+      this.gameId = params['id'];
       this.firestore
         .collection('games')
-        //.doc(param['id'])
+        .doc(this.gameId)
         .valueChanges()
         .subscribe((game: any) => {
           console.log('game Update', game);
@@ -31,6 +31,8 @@ export class GameComponent implements OnInit {
           this.game.playedCards = game.playedCards;
           this.game.players = game.players;
           this.game.stack = game.stack;
+          this.game.currentCard = game.currentCard;
+          this.game.newCardAnimation = game.newCardAnimation;
 
         });
     })
@@ -40,29 +42,31 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-    //this.firestore.collection('games').add(this.game.toJson());
   }
 
   takeCard() {
-    if (this.game.stack.length) {
-      const card = this.game.stack.pop();
-      if (card) {
-        this.currentCard = card;
-      }
-    }
+    if (!this.game.newCardAnimation) {
+      this.game.currentCard = this.game.stack.pop();
+      this.game.newCardAnimation = true;
 
-    this.newCardAnimation = true;
-
-    setTimeout(() => {
-      this.game.playedCards.push(this.currentCard);
-      this.newCardAnimation = false;
       if (this.game.currentPlayer != (this.game.players.length - 1)) {
         this.game.currentPlayer++;
       }
       else {
         this.game.currentPlayer = 0;
       }
-    }, 1000);
+      this.saveGame();
+      setTimeout(() => {
+        this.game.playedCards.push(this.game.currentCard);
+        this.game.newCardAnimation = false;
+
+        this.saveGame();
+      }, 1000);
+    }
+
+
+
+
   }
 
   openDialog(): void {
@@ -71,9 +75,18 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe(name => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.saveGame();
       }
 
     });
+  }
+
+  saveGame() {
+    this.firestore
+      .collection('games')
+      .doc(this.gameId)
+      .update(this.game.toJson());
+
   }
 
 
