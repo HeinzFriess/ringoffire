@@ -1,7 +1,9 @@
-<app-player *ngFor="let player of game.players; let i = index;" class="playerPosition" 
+<app-player *ngFor="let player of game.players; let i = index;" class="playerPosition hideMobile" 
 [ngStyle]="{'top.px' : 130 + (i * 90)}" [name]="player" [playerIsActive]="i == game.currentPlayer">
-
 </app-player>
+<app-player-mobile *ngFor="let player of game.players; let i = index;" class="playerPosition hideDesktop" 
+[ngStyle]="{'left.px' : 20 + (i * 75)}" [name]="player" [playerIsActive]="i == game.currentPlayer">
+</app-player-mobile>
 <div class="playground">
     <div class="cardstack">
         <img *ngFor="let c of [0,1,2,3,4]; let i = index" [ngStyle]="{'right.px' : i * 5}"
