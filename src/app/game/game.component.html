@@ -1,8 +1,8 @@
-<app-player *ngFor="let player of game.players; let i = index;" class="playerPosition hideMobile" 
-[ngStyle]="{'top.px' : 130 + (i * 90)}" [name]="player" [playerIsActive]="i == game.currentPlayer">
+<app-player (click)="editPlayer(i)"  *ngFor="let player of game.players; let i = index;" class="playerPosition hideMobile"
+    [ngStyle]="{'top.px' : 130 + (i * 90)}" [img]="game.player_images[i]" [name]="player" [playerIsActive]="i == game.currentPlayer">
 </app-player>
-<app-player-mobile *ngFor="let player of game.players; let i = index;" class="playerPosition hideDesktop" 
-[ngStyle]="{'left.px' : 20 + (i * 75)}" [name]="player" [playerIsActive]="i == game.currentPlayer">
+<app-player-mobile (click)="editPlayer(i)" *ngFor="let player of game.players; let i = index;" class="playerPosition hideDesktop"
+    [ngStyle]="{'left.px' : 20 + (i * 75)}" [img]="game.player_images[i]" [name]="player" [playerIsActive]="i == game.currentPlayer">
 </app-player-mobile>
 <div class="playground">
     <div class="cardstack">
@@ -18,9 +18,9 @@
 </div>
 
 <app-game-info [card]="game.currentCard" class="pinBottom">
-   
+
 </app-game-info>
 
-<button mat-fab color="primary" class="btnAdd" (click)="openDialog()">
+<button mat-fab color="primary" *ngIf="!game.tableIsFull" class="btnAdd" (click)="openDialog()">
     <mat-icon>add</mat-icon>
-  </button>
+</button>

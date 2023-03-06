@@ -1,0 +1,10 @@
+img{
+    height: 72px;
+    width: 72px;
+    border-radius: 100%;
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(1.1);
+    }
+}

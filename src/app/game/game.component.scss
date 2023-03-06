@@ -76,3 +76,11 @@
         min-height: 120px;
     }
 }
+
+app-player,app-player-mobile {
+    cursor: pointer;
+
+    :hover {
+        filter: brightness(1.5);
+    }
+}
