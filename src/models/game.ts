@@ -9,14 +9,7 @@ export class Game {
     public tableIsFull = false;
 
     constructor() {
-        for (let i = 1; i < 14; i++) {
-            this.stack.push('spade_' + i)
-            this.stack.push('clubs_' + i)
-            this.stack.push('diamonds_' + i)
-            this.stack.push('hearts_' + i)
-        }
-        shuffle(this.stack);
-
+        this.newStack(this.stack);
     }
 
     public toJson() {
@@ -29,6 +22,16 @@ export class Game {
             currentCard: this.currentCard,
             newCardAnimation: this.newCardAnimation
         }
+    }
+
+    public newStack(stack: string[]){
+        for (let i = 1; i < 14; i++) { 
+            stack.push('spade_' + i)
+            stack.push('clubs_' + i)
+            stack.push('diamonds_' + i)
+            stack.push('hearts_' + i)
+        }
+        shuffle(stack);
     }
 
     

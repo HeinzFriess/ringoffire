@@ -3,7 +3,7 @@ import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 @Component({
@@ -14,20 +14,19 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
 export class GameComponent implements OnInit {
   game!: Game;
   gameId: string = '';
+  sub: any;
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     this.newGame();
     this.route.params.subscribe((params) => {
-      //console.log('route', params['id']);
       this.gameId = params['id'];
-      this.firestore
+      this.sub = this.firestore
         .collection('games')
         .doc(this.gameId)
         .valueChanges()
         .subscribe((game: any) => {
-          //console.log('game Update', game);
           this.game.currentPlayer = game.currentPlayer;
           this.game.playedCards = game.playedCards;
           this.game.players = game.players;
@@ -38,8 +37,6 @@ export class GameComponent implements OnInit {
 
         });
     })
-    console.log(this.game);
-
   }
 
   newGame() {
@@ -98,7 +95,6 @@ export class GameComponent implements OnInit {
           this.game.players.splice(playerIndex, 1)
           this.game.player_images.splice(playerIndex, 1)
         } else {
-          console.log('das bild ist:', change);
           this.game.player_images[playerIndex] = change;
         };
         this.saveGame();
@@ -113,6 +109,29 @@ export class GameComponent implements OnInit {
       .doc(this.gameId)
       .update(this.game.toJson());
 
+  }
+
+  newstart() {
+    this.sub.unsubscribe();
+    this.firestore
+    .collection('games')
+    .doc(this.gameId)
+    .delete()
+    let game = new Game();
+    this.firestore
+      .collection('games')
+      .add(game.toJson())
+      .then((gameInfo: any) => {
+        this.router.navigateByUrl('/game/' + gameInfo.id);
+      });
+  }
+
+  restart() {
+    this.game.newStack(this.game.stack);
+    this.game.playedCards = [];
+    this.game.currentPlayer = 0;
+    this.game.currentCard = '';
+    this.game.newCardAnimation = false;
   }
 
 
