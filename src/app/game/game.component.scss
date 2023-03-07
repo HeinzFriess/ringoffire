@@ -86,7 +86,15 @@ app-player,app-player-mobile {
 }
 
 .endScreen {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90%;
+
+    img {
+        width: 400px;
+    }
 }
 
 .autoscroll {
