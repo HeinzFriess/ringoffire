@@ -1,7 +1,6 @@
 <div class="autoscroll hideDesktop" *ngIf="!(game.stack.length == 0)">
     <app-player-mobile (click)="editPlayer(i)" *ngFor="let player of game.players; let i = index;"
-        [img]="game.player_images[i]"
-        [name]="player" [playerIsActive]="i == game.currentPlayer">
+        [img]="game.player_images[i]" [name]="player" [playerIsActive]="i == game.currentPlayer">
     </app-player-mobile>
 </div>
 <div class="playground" *ngIf="!(game.stack.length == 0)">
@@ -31,10 +30,15 @@
 
 <div class="endScreen" *ngIf="game.stack.length == 0">
     <img src="./../../assets/img/game_over.svg">
-    <button [ngStyle]="{'margin.px': 12}" mat-raised-button color="primary" (click)="restart()">
-        Start a new round<!-- <mat-icon>autorenew</mat-icon> -->
+    <div>
+        <button [ngStyle]="{'margin.px': 12}" mat-fab color="primary" (click)="restart()"
+        matTooltip="Start a new Round">
+        <mat-icon>autorenew</mat-icon>
     </button>
-    <button [ngStyle]="{'margin.px': 12}" mat-raised-button color="primary" (click)="newstart()">
-        Start an empty game<!-- <mat-icon>star</mat-icon> -->
+    <button [ngStyle]="{'margin.px': 12}" mat-fab color="primary" (click)="newstart()"
+        matTooltip="Start an empty game">
+        <mat-icon>star</mat-icon>
     </button>
+    </div>
+    
 </div>

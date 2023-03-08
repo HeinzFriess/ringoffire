@@ -24,6 +24,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     MatInputModule,
     FormsModule,
     MatCardModule,
+    MatTooltipModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
